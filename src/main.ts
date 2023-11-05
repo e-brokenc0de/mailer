@@ -130,6 +130,8 @@ const shortlinks = collect([
   'id95927.delivery',
 ])
 
+let sentCount = 1
+
 async.mapLimit(smtpCollection.toArray(), 10, async (smtp: string) => {
   const list = listArray.shift()
 
@@ -171,8 +173,10 @@ async.mapLimit(smtpCollection.toArray(), 10, async (smtp: string) => {
       html: messageHtml,
     })
 
-    console.log(`${list} ${info?.messageId} ${user}`)
+    console.log(`${sentCount} ${list} ${info?.messageId} ${user}`)
   } catch (e) {
-    console.log(`${list} ${e?.message}`)
+    console.log(`${sentCount} ${list} ${e?.message}`)
   }
+
+  sentCount++
 })
